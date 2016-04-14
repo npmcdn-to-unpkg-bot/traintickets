@@ -1,0 +1,35 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#main/home">Logo</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#main/home">Home</a></li>
+                <li><a href="#main/information">Check Valid Ticket</a></li>
+                <li><a href="#main/event">Events</a></li>
+                <li><a href="#main/viewtime">Timetable</a></li>
+                <li><a href="#main/guide">Guide</a></li>
+                <li><a href="#main/contact">Contact</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#main/login" class="glyphicon glyphicon-log-in"> Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- CONTAINs -->
+<div ui-view class="page-wrap" ng-class="$root.backgroundPage"></div>
+<!-- CONTAINs -->
+<div class="site-footer">
+    <div class="container">
+        <p class="text-muted text-center">Vietnam Railways, 118 Le Duan, Hoan Kiem, Hanoi. Phone number: 19006469. Email: dsvn@vr.com.vn. Certificate of Business Registration No. 113642 according to Decision No. 973/QĐ-TTg dated 25 June 2010 of the Prime Minister. Enterprise code: 0100105052,
+            fist registration on 26 July 2010, the fourth registration for change on 27 June 2014 at Hanoi Authority for Planning and Investment.</p>
+    </div>
+</div>

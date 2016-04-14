@@ -1,0 +1,42 @@
+<div class="container div-container">
+
+  <div class="row">
+
+    <div class="col-xs-12 col-ms-12 col-md-2 col-lg-2">
+
+    </div>
+    <div class="col-xs-12 col-ms-12 col-md-8 col-lg-8">
+      <ul class="nav nav-tabs" >
+        <li class='li-menu-coach' ng-repeat="tab in tabs"
+                ng-class="{active:isActiveTab(tab.name)}"
+                ng-click="onClickTab(tab)">{{tab.name}}</li>
+      </ul><br>
+      <h1>{{name}}</h1>
+      <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <td>Time Begin</td>
+          <td>
+          {{timeBegin}}</td>
+        </tr>
+        <tr>
+          <td>Time End</td>
+          <td>{{timeEnd}}</td>
+        </tr>
+        <tr>
+          <td>Object:</td>
+          <td>{{object}}</td>
+        </tr>
+        <tr>
+          <td>Content:
+          </td>
+          <td><p>{{content}}</p></td>
+        </tr>
+      </table>
+      </div>
+      <div class="div-text">
+      </div>
+    </div>
+    <div class="col-xs-12 col-ms-12 col-md-2 col-lg-2"></div>
+  </div>
+</div>

@@ -1,0 +1,156 @@
+<div class="container div-container">
+  <!-- ====================================================================== cCONTEN======================= -->
+  <div class="row body_heigh">
+
+    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 conte_left">
+      <p class="tag_p well-sm well-lg">Time journey</p>
+      <hr>
+      <p ng-click="north_sound()" class="tag_p_p" ><span class="fa fa-train train"></span> Tàu khách bắc nam </p>
+      <hr>
+      <p ng-click="hanoi_danang()" class="tag_p_p"><span class="fa fa-train train"></span> Hà Nội, Vinh, Huế, Đà Nẵng</p>
+      <hr>
+      <p ng-click="hanoi_laocai()" class="tag_p_p"><span class="fa fa-train train"></span> Hà Nội-Lào Cai</p>
+      <hr>
+      <p ng-click="hanoi_haiphong()" class="tag_p_p"><span class="fa fa-train train"></span> Hà Nội-Hải Phòng</p>
+      <hr>
+      <p ng-click="hanoi_dongdang()" class="tag_p_p"><span class="fa fa-train train"></span> Hà Nội-Đồng Đăng</p>
+      <hr>
+      <p ng-click="hanoi_thainguyen()" class="tag_p_p"><span class="fa fa-train train"></span> Hà Nội-Thái Nguyên</p>
+      <hr>
+      <p ng-click="kep_halong()" class="tag_p_p"><span class="fa fa-train train"></span> Kép-Hạ Long</p>
+      <hr>
+      <p ng-click="saigon_danang()" class="tag_p_p"><span class="fa fa-train train"></span> Sài Gòn, Nha Trang, Đà Nẵng</p>
+      <hr>
+      <p ng-click="saigon_phanthiet()" class="tag_p_p"><span class="fa fa-train train"></span> Sài Gòn-Phan Thiết</p>
+      <hr>
+      <p ng-click="saigon_quinhon()" class="tag_p_p"><span class="fa fa-train train"></span> Sài Gòn-Qui Nhơn</p>
+      <hr>
+      <!-- ===============================================================ddddddddddddddd===========Pricessss-->
+
+      <p class="tag_p_1 well-sm well-lg">Price</p>
+      <hr>
+      <p ng-click="Price_north_sound()" class="tag_p_p"><span class="fa fa-usd train"></span> Tàu khách bắc nam</p>
+      <hr>
+      <p ng-click="Price_hanoi_danang()" class="tag_p_p"><span class="fa fa-usd train"></span> Hà Nội, Vinh, Huế, Đà Nẵng</p>
+      <hr>
+      <p ng-click="Price_hanoi_laocai()" class="tag_p_p"><span class="fa fa-usd train"></span> Hà Nội-Lào Cai</p>
+      <hr>
+      <p ng-click="Price_hanoi_haiphong()" class="tag_p_p"><span class="fa fa-usd train"></span> Hà Nội-Hải Phòng</p>
+      <hr>
+      <p ng-click="Price_hanoi_dongdang()" class="tag_p_p"><span class="fa fa-usd train"></span> Hà Nội-Đồng Đăng</p>
+      <hr>
+      <p ng-click="Price_hanoi_thainguyen()" class="tag_p_p"><span class="fa fa-usd train"></span> Hà Nội-Thái Nguyên</p>
+      <hr>
+      <p ng-click="Price_kep_halong()" class="tag_p_p"><span class="fa fa-usd train"></span> Kép-Hạ Long</p>
+      <hr>
+      <p ng-click="Price_saigon_danang()" class="tag_p_p"><span class="fa fa-usd train"></span> Sài Gòn, Nha Trang, Đà Nẵng</p>
+      <hr>
+      <p ng-click="Price_saigon_phanthiet()" class="tag_p_p"><span class="fa fa-usd train"></span> Sài Gòn-Phan Thiết</p>
+      <hr>
+      <p ng-click="Price_saigo_quinhon()" class="tag_p_p" ><span class="fa fa-usd train"></span> Sài Gòn-Qui Nhơn</p>
+      <hr>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-6 col-lg-6 conte_right">
+      <!-- -=================================================================================================Right-->
+
+      <p class="journey">JOURNEY INFORMATION and TIME</p>
+      <div id="contenID">
+        <p id="listid"><b>Train code:</b> <span ng-repeat="id in listId"> {{id}},</span></p>
+      </div>
+      <hr>
+      <div id="journey_text">
+        <p> {{Trainjourneygo}}</p>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <th>{{station}}</th>
+            <th ng-hide = "hide">{{timeaway}}</th>
+            <th>{{timearrivals}}</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="station in stationList">
+              <td>{{station.station}} {{station.fromStation + connect + station.toStation}}</td>
+              <td  ng-hide = "hide">{{station.time/60 | number :0 }}:{{  station.time%60 | number :0}} </td>
+              <td ng-hide = "hide">{{station.time/60 | number :0}}:{{station.time%60 | number :0}}</td>
+              <td ng-hide = "show">{{station.price}} <sup>đ</sup></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- train return -->
+      <hr ng-hide = "hide">
+      <div id="journey_text">
+        <p ng-hide = "hide"> Train journey return</p>
+      </div>
+      <div class="table-responsive" ng-hide = "hide">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <th>Station</th>
+            <th>Time away</th>
+            <th>Time arrivals</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="station in stationListReturn">
+              <td>{{station.station}}</td>
+              <td>{{station.time/60 | number :0 }}:{{  station.time%60 | number :0}}</td>
+              <td>{{station.time/60 | number :0}}:{{station.time%60 | number :0}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 tbl_price">
+        <div class="table-responsive ">
+          <table class="table table-bordered table-striped ">
+            <thead>
+              <th>Type coach</th>
+              <th>Price</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Located soft conditioning</td>
+                <td>100.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Located soft</td>
+                <td>80.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Situated hard-Conditioning</td>
+                <td>90.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Situated hard</td>
+                <td>70.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Sit hard </td>
+                <td>30.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Sit hard conditioning</td>
+                <td>60.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Seated soft </td>
+                <td>40.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Seated soft conditioning</td>
+                <td>50.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td>Seat</td>
+                <td>20.000<sup>đ</sup></td>
+              </tr>
+              <tr>
+                <td colspan="2" id = "textheadTB">Fares are inclusive of insurance and value added tax</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
