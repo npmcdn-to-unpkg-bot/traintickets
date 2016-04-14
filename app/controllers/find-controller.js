@@ -38,16 +38,11 @@ routerApp.controller('findController', function(changeInfor, showLog, urlService
         var dateTo =document.getElementById('dateTo').value;
         var dateOneWay = new Date(dateGo);
         var dateRountrip = new Date(dateTo);
-        var checkInput = false;
-        if (!($scope.activeButton)) {
-            if (!go || !to || !(dateGo) || !(dateTo)) {
-                checkInput = true;
-            }
-        } else {
-            if (!go || !to || !(dateGo)) {
-                checkInput = true;
-            }
-        }
+        if (!go || !to) {
+              BootstrapDialog.alert("Please enter your place of departure, destination!!!");
+          } else if (go == to) {
+              BootstrapDialog.alert("The departure, the destination must be different!!!");
+          } else {
         $http
             .post(urlServices.getURL('train'), {
                 fromStation: go,
@@ -97,5 +92,6 @@ routerApp.controller('findController', function(changeInfor, showLog, urlService
                   }
 
                 });
+      }
     };
 });
