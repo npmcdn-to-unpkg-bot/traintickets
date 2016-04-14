@@ -1,4 +1,4 @@
-routerApp.controller('loginController', function(changeInfor, showLog, urlServices, $scope, $state, $http, $cookies, $cookieStore) {
+routerApp.controller('loginController', function(changeInfor,toastr, showLog, urlServices, $scope, $state, $http, $cookies, $cookieStore) {
     /*
      * INIT
      */
@@ -14,6 +14,9 @@ routerApp.controller('loginController', function(changeInfor, showLog, urlServic
     // chagne infor
 
     changeInfor.change('login');
+    toastr.warning('Waiting for update...');
+    $state.go('main.home');
+
     //===============================
     // change input
     $scope.change = function() {

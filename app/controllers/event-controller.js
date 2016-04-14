@@ -36,6 +36,10 @@ routerApp.controller('eventController', function(changeInfor, showLog, urlServic
             $scope.isActiveTab = function(tabUrl) {
                 return tabUrl == $scope.name;
             }
+        })
+        .error(function(){
+            
+            BootstrapDialog.alert("Currently no events. Please come back later!!!");
         });
 
 });

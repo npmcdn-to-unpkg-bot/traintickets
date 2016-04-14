@@ -21,7 +21,7 @@
           </tr>
           <tr ng-show="showFirstTicket">
             <td>{{firstTicket._id}}</td>
-            <td><input ng-disabled="isDisabledElement" ng-model="inputNameFirstTicket" ng-class="classFirstTicketName"
+            <td><input ng-disabled="isDisabledElement" ng-model="inputNameFirstTicket" ng-change="changeName(1)" ng-class="classFirstTicketName"
                type="text" placeholder="Name" maxlength="100" minlength="2"></td>
             <td><input ng-disabled="isDisabledElement" ng-class="classFirstTicketID"  ng-model="inputIDFirstTicket" type="number" ></td>
             <td>{{firstTicket.isReturn}} </td>
@@ -57,7 +57,7 @@ Type: {{firstTicket.typeSeat}}"
           </tr>
           <tr ng-show="showSecondTicket">
             <td>{{secondTicket._id}}</td>
-            <td><input ng-disabled="isDisabledElement" ng-model="inputNameSecondTicket" type="text"
+            <td><input ng-disabled="isDisabledElement" ng-model="inputNameSecondTicket" type="text"  ng-change="changeName(2)"
                         ng-class="classSecondTicketName"
                 placeholder="Name" maxlength="100" minlength="2"></td>
             <td><input ng-disabled="isDisabledElement" ng-class="classSecondTicketID" ng-model="inputIDSecondTicket" type="number" ></td>
@@ -94,7 +94,7 @@ Type: {{secondTicket.typeSeat}}"
           </tr>
           <tr ng-show="showThirdTicket">
             <td>{{thirdTicket._id}}</td>
-            <td><input ng-disabled="isDisabledElement" ng-model="inputNameThirdTicket" type="text" ng-class="classThirdTicketName"
+            <td><input ng-disabled="isDisabledElement" ng-model="inputNameThirdTicket" type="text" ng-class="classThirdTicketName"  ng-change="changeName(3)"
                   placeholder="Name" maxlength="100" minlength="2"></td>
             <td><input ng-disabled="isDisabledElement" ng-model="inputIDThirdTicket" ng-class="classThirdTicketID" type="number" ></td>
             <td>{{thirdTicket.isReturn }}</td>

@@ -22,6 +22,7 @@ routerApp.controller('informationController', function(changeInfor, showLog, url
     $scope.taxnumber = "";
     $scope.addresscompany = "";
     $scope.emailcompany = "";
+    $scope.datebuy = "";
     $scope._idDelete = null;
     $scope._idSearch = null;
 
@@ -50,6 +51,7 @@ routerApp.controller('informationController', function(changeInfor, showLog, url
         $scope.state = response.ticket.state;
         $scope.money = response.ticket.price;
         $scope.TotalPrice = response.ticket.price;
+        $scope.datebuy = response.ticket.dateBuy;
         $scope.companyname = response.company.nameCompany;
         $scope.taxnumber = response.company.taxNumber;
         $scope.addresscompany = response.company.addressCompany;

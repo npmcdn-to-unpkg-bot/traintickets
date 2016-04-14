@@ -6,6 +6,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   $scope.Trainjourneygo = "Train journey go";
   //change infor
   changeInfor.change('timetable');
+  $scope.Math = window.Math;
   function showJourney() {
     $scope.station = "Station";
     $scope.timeaway = "Time away";
@@ -30,11 +31,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Sai Gon") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+         for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -47,11 +50,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Da Nang") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -64,11 +69,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Lao Cai") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -81,11 +88,14 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Hai Phong") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -98,11 +108,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Dong Dang") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -115,11 +127,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Thai Nguyen") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -132,11 +146,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Kep-Ha Long") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -149,11 +165,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Sai Gon-Da Nang") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -166,11 +184,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
     $http.get(urlServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Sai Gon-Phan Thiet") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -184,11 +204,13 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       console.log("response");
       $scope.train = response.data;
       $scope.listId = [];
+      $scope.listJourney = [];
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Sai Gon-Quy Nhon") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].trainJourney;
-          $scope.stationListReturn = response[i].trainJourneyReturn;
+          for (j = 0; j < response[i].trainJourney.length; j++) {
+            $scope.listJourney[j] = [response[i].trainJourney[j], response[i].trainJourneyReturn[j]];
+          }
         }
       }
       showJourney();
@@ -207,7 +229,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
         if (response[i].title == "Ha Noi-Sai Gon") {
           // $scope.coachsTrain = response[i].coachs;
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -223,7 +245,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Da Nang") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -239,7 +261,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Lao Cai") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -255,7 +277,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Hai Phong") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -271,7 +293,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Dong Dang") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -287,7 +309,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Ha Noi-Thai Nguyen") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -303,7 +325,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Kep-Ha Long") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -319,7 +341,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Sai Gon-Da Nang") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -335,7 +357,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Sai Gon-Phan Thiet") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();
@@ -352,7 +374,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
       for (i = 0; i < response.length; i++) {
         if (response[i].title == "Sai Gon-Quy Nhon") {
           $scope.listId.push(response[i]._id);
-          $scope.stationList = response[i].pricesDistance;
+          $scope.listJourney = response[i].pricesDistance;
         }
       }
       changeTitle();

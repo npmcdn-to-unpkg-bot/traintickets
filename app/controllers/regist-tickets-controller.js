@@ -85,11 +85,61 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
   $scope.isRegist   =  true;
   // container
   $scope.isDisabledElement = false;
+  // enviroment
+  var envi = 'dev';
   //change infor
   changeInfor.change('register');
   /*
   * METHODS
   */
+  //
+  $scope.changeName = function(index){
+    switch (index) {
+      case 1:
+        // showLog.show($scope.inputNameFirstTicket, envi);
+        showLog.show($scope.inputNameFirstTicket, envi);
+        if((typeof $scope.inputNameFirstTicket) != 'undefined')
+        {
+          var len = $scope.inputNameFirstTicket.length;
+          var chLast = $scope.inputNameFirstTicket.charAt(len-1);
+          showLog.show(len, envi);
+          showLog.show($scope.inputNameFirstTicket, envi);
+          if((Number(chLast) > 0)){
+            toastr.error('Cannot write number here.','ERROR',{timeOut:timOuToastr});
+            if(len == 1){
+              $scope.inputNameFirstTicket = "undefined";
+            }else
+            $scope.inputNameFirstTicket = $scope.inputNameFirstTicket.substring(0, len-1);
+          }
+        }
+        break;
+      case 2:
+        if((typeof $scope.inputNameSecondTicket) != 'undefined')
+          {var len = $scope.inputNameSecondTicket.length;
+          var chLast = $scope.inputNameSecondTicket.charAt(len-1);
+          if((Number(chLast) > 0)){
+            toastr.error('Cannot write number here.','ERROR',{timeOut:timOuToastr});
+            if(len == 1)
+              $scope.inputNameSecondTicket = "undefined";
+            else
+            $scope.inputNameSecondTicket = $scope.inputNameSecondTicket.substring(0, len-1);
+          }}
+        break;
+      case 3:
+        if((typeof $scope.inputNameThirdTicket) != 'undefined')
+        {  var len = $scope.inputNameThirdTicket.length;
+          var chLast = $scope.inputNameThirdTicket.charAt(len-1);
+          if((Number(chLast) > 0)){
+            toastr.error('Cannot write number here.','ERROR',{timeOut:timOuToastr});
+            if(len == 1)
+              $scope.inputNameThirdTicket = "undefined";
+            else
+            $scope.inputNameThirdTicket = $scope.inputNameThirdTicket.substring(0, len-1);
+          }}
+        break;
+
+    }
+  }
     // event slected objec
     $scope.chooseObject =  function(name){
       chooseObjectVar(name);
@@ -325,7 +375,7 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
           $scope.isDisabledElement = true;
           $scope.isRegist =  false;
           if(!$scope.isRegist){
-            $scope.btnContent = 'Printer';
+            $scope.btnContent = 'Save Image';
           }else{
             $scope.btnContent = 'Register';
           }
@@ -346,14 +396,25 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
                                                   {timeOut: timOuToastr});
                                 })
                                 .error(function (data, status, header, config) {
+
+                                  if(data == null){
+                                    toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                                    $scope.isRegist = true;
+                                    return;
+                                  }
                                   toastr.error('Name: '+ $scope.listCustomer[0].name
                                                   +" \n"+$scope.listCustomer[0]._id+" "+ data.error,'Error',{timeOut:timOuToastr});
                                   removeTicketVar(1);
                                 });
                         })
                         .error(function (data, status, header, config) {
+                          if(data == null){
+                            toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                            $scope.isRegist = true;
+                            return;
+                          }
                           toastr.error('Name: '+ $scope.listCustomer[1].name
-                                          +" \n"+$scope.listCustomer[0]._id+" "+data,'Error',{timeOut:timOuToastr});
+                                          +" \n"+$scope.listCustomer[1]._id+" "+data,'Error',{timeOut:timOuToastr});
                           removeTicketVar(2);
                           $http.post(urlServices.getURL('customer'), $scope.listCustomer[0])
                                 .success(function (data, status, headers, config) {
@@ -362,6 +423,11 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
                                   {timeOut: timOuToastr});
                                 })
                                 .error(function (data, status, header, config) {
+                                  if(data == null){
+                                    toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                                    $scope.isRegist = true;
+                                    return;
+                                  }
                                   toastr.error('Name: '+ $scope.listCustomer[0].name
                                                   +" \n"+$scope.listCustomer[0]._id+" "+data,'Error',{timeOut:timOuToastr});
                                   removeTicketVar(1);
@@ -369,6 +435,11 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
                         });
                 })
                 .error(function (data, status, header, config) {
+                  if(data == null){
+                    toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                    $scope.isRegist = true;
+                    return;
+                  }
                   toastr.error('Name: '+ $scope.listCustomer[2].name
                                   +" \n"+$scope.listCustomer[2]._id+" "+data.error,'Error',{timeOut:timOuToastr});
                   removeTicketVar(3);
@@ -392,6 +463,10 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
                                 });
                         })
                         .error(function (data, status, header, config) {
+                          if(data == null){
+                            toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                            return;
+                          }
                           toastr.error('Name: '+ $scope.listCustomer[1].name
                                           +" \n"+$scope.listCustomer[1]._id+" "+data.error,'Error',{timeOut:timOuToastr});
                           removeTicketVar(2);
@@ -402,6 +477,10 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
                                   {timeOut: timOuToastr});
                                 })
                                 .error(function (data, status, header, config) {
+                                  if(data == null){
+                                    toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                                    return;
+                                  }
                                   toastr.error('Name: '+ $scope.listCustomer[0].name
                                                   +" \n"+$scope.listCustomer[0]._id+" "+data.error,'Error',{timeOut:timOuToastr});
                                   removeTicketVar(1);
@@ -421,7 +500,7 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
           $scope.isRegist =  false;
           // console.log('first');
           if(!$scope.isRegist){
-            $scope.btnContent = 'Printer';
+            $scope.btnContent = 'Save image';
           }else{
             $scope.btnContent = 'Register';
           }
@@ -440,12 +519,22 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
 
                         })
                         .error(function (data, status, header, config) {
+                          if(data == null){
+                            toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                            $scope.isRegist = true;
+                            return;
+                          }
                           toastr.error('Name: '+ $scope.listCustomer[0].name
                                           +" \n"+$scope.listCustomer[0]._id+" "+data,'Error',{timeOut:timOuToastr});
                           removeTicketVar(1);
                         });
                 })
                 .error(function (data, status, header, config) {
+                  if(data == null){
+                    toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                    $scope.isRegist = true;
+                    return;
+                  }
                   toastr.error('Name: '+ $scope.listCustomer[1].name
                                   +" \n"+$scope.listCustomer[1]._id+" "+data,'Error',{timeOut:timOuToastr});
                   removeTicketVar(2);
@@ -458,6 +547,11 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
 
                         })
                         .error(function (data, status, header, config) {
+                          if(data == null){
+                            toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                            $scope.isRegist = true;
+                            return;
+                          }
                           toastr.error('Name: '+ $scope.listCustomer[0].name
                                           +" \n"+$scope.listCustomer[0]._id+" "+data,'Error',{timeOut:timOuToastr});
                           removeTicketVar(1);
@@ -468,7 +562,7 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
           $scope.isRegist =  false;
           $scope.isDisabledElement = true;
           if(!$scope.isRegist){
-            $scope.btnContent = 'Printer';
+            $scope.btnContent = 'Save image';
           }else{
             $scope.btnContent = 'Register';
           }
@@ -479,6 +573,11 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
                   {timeOut: timOuToastr});
                 })
                 .error(function (data, status, header, config) {
+                  if(data == null){
+                    toastr.error('Cannot connect to the server','Error',{timeOut:timOuToastr});
+                    $scope.isRegist = true;
+                    return;
+                  }
                   toastr.error('Name: '+ $scope.listCustomer[0].name
                                   +" \n"+$scope.listCustomer[0]._id+" "+data,'Error',{timeOut:timOuToastr});
                   removeTicketVar(1);
@@ -629,18 +728,6 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
     }
     // the first load state it run to show ui
     var getTicket   = function(){
-      // get Events
-      // console.log($scope.listEvent);
-      // $scope.listEventRegister = $scope.listEvent;
-      // filter the event wes die
-      // filterEvent();
-      // console.log('filer');
-      // console.log($scope.listEventRegister);
-      // add the event to the object
-      // addEventToObject();
-      // console.log('event object');
-      // console.log($scope.objects);
-      // get listTickets
       if($scope.listTickets.length == 3){
         $scope.ticketNumber       = 3;
         // get the first ticket
@@ -726,11 +813,13 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
       }
     }
     var printPDF =  function(){
-      var innerContents = document.getElementById('div-register').innerHTML;
-        var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-        popupWinindow.document.open();
-        popupWinindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="styles/style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
-        popupWinindow.document.close();
+      html2canvas($("#div-register"), {
+       onrendered: function(canvas) {
+           // canvas is the final rendered <canvas> element
+           var myImage = canvas.toDataURL("image/png");
+           window.open(myImage);
+       }
+     });
     }
 
     /*

@@ -120,7 +120,7 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
       "_id"         : id,
       "_idTrain"    : $scope.trainActive._id,
       "coachTrain"  : $scope.coachActive._id,
-      "date"        : convertTime($scope.time, $scope.currentTime),
+      "date"        : convertTimeVar($scope.time, $scope.currentTime),
       "dateBuy"     : new Date().getTime(),
       'object'      : 'Adult',
       "seatNumber"  : $scope.seat.number,
@@ -136,6 +136,9 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
     showLog.show($scope.seatO, envi);
     $scope.listTickets.push($scope.seatO);
     filterListSeat();// update view
+  }
+  $scope.convertTime = function(timestamp, hour){
+    return convertTimeVar(timestamp, hour);
   }
   // remov tikect
   $scope.removeTicket = function(div){
@@ -407,7 +410,7 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
       listD[0].addClass('a');
     }
     // change time
-    var convertTime =  function(timestamp, hour){
+    var convertTimeVar =  function(timestamp, hour){
         var date =  new Date(Number(timestamp));
         var m = date.getMonth();
         var y = date.getFullYear();
@@ -420,6 +423,7 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
     var checkTrain = function(){
       $scope.journey = localStorageService.get('journey');
       $scope.journeyReturn = localStorageService.get('journeyReturn');
+      showLog.show($scope.journey,envi);
       if((typeof $scope.journey) != 'string'){
         if($scope.journey.listTrain.length >0){
                     // set default train
