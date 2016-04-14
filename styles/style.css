@@ -292,6 +292,7 @@ html, body {
     min-height: 533px;
     color: black;
     overflow-y: auto;
+    padding-top: 10px;
 }
 .div-text {
     text-align: justify;

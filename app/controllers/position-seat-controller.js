@@ -112,15 +112,16 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
 
       };
     }
-    var date =  $window.Math.round(Number(new Date().getTime())/1000*$window.Math.random());
+    var id =  $window.Math.round(Number(new Date().getTime())/1000*$window.Math.random());
     var price = Number($scope.coachActive.price)
                       + Number(getPriceDistance($scope.trainActive, $scope.fromStation, $scope.toStation));
     showLog.show('price '+ price, envi);
     $scope.seatO = {
-      "_id"         : date,
+      "_id"         : id,
       "_idTrain"    : $scope.trainActive._id,
       "coachTrain"  : $scope.coachActive._id,
       "date"        : convertTime($scope.time, $scope.currentTime),
+      "dateBuy"     : new Date().getTime(),
       'object'      : 'Adult',
       "seatNumber"  : $scope.seat.number,
       "nameTrain"   : $scope.nameTrain,

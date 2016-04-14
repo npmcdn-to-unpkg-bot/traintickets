@@ -9,7 +9,7 @@
       <div class="div-train" ng-animate='animate' ng-repeat=" train in trainsActive" ng-click="changeListCoach(this)">
         <span >ID: {{train._id}} </span><br>
         <span >Name: {{train.title}} </span><br>
-        <span> Time: {{getTimeDate(train._id, 'time')}}</span><br>
+        <span> Time: {{convertTime(time, currentTime) | date:'yyyy/MM/dd HH:mm:ss'}}</span><br>
         <span> From:  {{getTimeDate(train._id, 'from')}}</span><br>
         <span> To:  {{getTimeDate(train._id, 'to')}}</span>
         <div class="select-train">

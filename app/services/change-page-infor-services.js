@@ -7,7 +7,7 @@ routerApp.service('changeInfor',function($rootScope){
         // showLog.show('goin information', envi);
         $rootScope.pageTitle = 'TrainTickets System';
         break;
-      case 'postion':
+      case 'position':
         // change backgroundPage
         $rootScope.backgroundPage = "position-background";
         // showLog.show('goin information', envi);
