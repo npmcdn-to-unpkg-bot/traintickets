@@ -1,5 +1,5 @@
 
-routerApp.controller('mainController',  function(changeInfor, showLog, $scope, $rootScope,  $http, $state, toastr){
+routerApp.controller('mainController',  function(urlServices, changeInfor, showLog, $scope, $rootScope,  $http, $state, toastr){
 
   var envi =  'dev';
   //menu
@@ -12,24 +12,22 @@ routerApp.controller('mainController',  function(changeInfor, showLog, $scope, $
   $scope.listTickets = [];
   $scope.listEvent = [];
   $rootScope.showLoad = "hide-load";
+  // time hide toastr
+  var timOutToastr = 10000;
   showLog.show('showLoad',envi);
   // $scope.backgroundPage ="master-page";
   // $rootScope.pageTitle = "TrainTickets";
   changeInfor.change('main');
-  // wath
-  $scope.$watch('backgroundPage', function() {
-        showLog.show('change background page', envi);
-        showLog.show($scope.backgroundPage);
-    });
   // listen list when the postion-seat return
   $scope.$on('eventListTicketsFromPosition', function (event, args) {
-   $scope.listTickets = args.listTickets;
+    $scope.listTickets = args.listTickets;
    });
    $scope.$on('eventList', function (event, args) {
     $scope.listEvent = args.listEvent;
     });
   showLog.show('test show log services', envi);
   $scope.changeAcitveMenu = function(index){
+    // reset
     $scope.active1 = "";
     $scope.active2 = "";
     $scope.active3 = "";
@@ -58,4 +56,21 @@ routerApp.controller('mainController',  function(changeInfor, showLog, $scope, $
 
     }
   }
+  // check connect to server
+  var autoCheckServer = function(){
+    showLog.show(urlServices.getURL('train'), envi);
+    $http.get(urlServices.getURL('train'))
+            .success(function(response, status) {
+
+            }).error(function (data, status, header, config) {
+              showLog.show(data+", "+status+", "+header+", ", envi );
+              showLog.show( config, envi);
+              if(data == null){
+                toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
+                            'Error',{timeOut:timOutToastr});
+              }
+          });
+  }
+  // run when app run
+  autoCheckServer();
 });

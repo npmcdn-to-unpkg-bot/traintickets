@@ -153,6 +153,8 @@ html, body {
     width: 100%;
     border-bottom: 1px solid #BDBDBD;
     margin: 10px 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 .form-control {
     margin-right: 0px;
@@ -167,9 +169,11 @@ html, body {
 @media (min-width:992px) {
     .div-field2 {
         height: 120px;
+        padding-right: 15px;
     }
     .div-field {
         height: 60px;
+        padding-right: 15px;
     }
 }
 @media (max-width:991px) {
@@ -293,9 +297,7 @@ html, body {
     color: black;
     overflow-y: auto;
     padding-top: 10px;
-    top: -10px;
     position: relative;
-    padding-bottom: 20px;
 }
 .div-text {
     text-align: justify;

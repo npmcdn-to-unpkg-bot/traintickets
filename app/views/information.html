@@ -43,7 +43,7 @@
           </thead>
           <tbody>
             <tr>
-              <td colspan="7" class="text_train"><b>{{TrainJourney}}</b></td>
+              <td colspan="7" class="text_train"><b>{{TrainJourney}} {{datego | date:'yyyy-MM-dd HH:mm:ss'}}</b></td>
             </tr>
             <tr>
               <td>{{namecustomer}}</td>
@@ -51,7 +51,7 @@
               <td>{{object}}</td>
               <td>{{typeseat}}</td>
               <td>{{inforticket}}</td>
-              <td>{{datebuy}}</td>
+              <td>{{datebuy | date:'yyyy-MM-dd HH:mm:ss'}}</td>
               <td>{{state}}</td>
               <td>{{money}}</td>
             </tr>

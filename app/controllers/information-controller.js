@@ -25,7 +25,7 @@ routerApp.controller('informationController', function(changeInfor, showLog, url
     $scope.datebuy = "";
     $scope._idDelete = null;
     $scope._idSearch = null;
-
+    $scope.datego = "";
 
   };
   $scope.search = function() {
@@ -36,22 +36,23 @@ routerApp.controller('informationController', function(changeInfor, showLog, url
       });
       hidetext();
     } else {
-      $http.post(urlServices.getURL('customer')+"/"+ $scope._idSearch).success(function(response) {
+      $http.post(urlServices.getURL('customer') +"/" + $scope._idSearch).success(function(response) {
 
         $scope.tickcode = response.ticket._id;
         $scope.seatcode = response.ticket.seatNumber;
-        $scope.TrainJourney = response.ticket.startStation + " - " + response.ticket.endStation + ", date go: " + response.ticket.date;
+        $scope.TrainJourney = response.ticket.startStation + " - " + response.ticket.endStation;
         $scope.namecustomer = response.name;
         $scope.phonecustomer = response.phone;
         $scope.email = response.email;
         $scope.Indentitycard = response._id;
         $scope.object = response.ticket.object;
         $scope.typeseat = response.ticket.typeSeat;
-        $scope.inforticket = "Code train: " + response.ticket._idTrain + ", name: " + response.ticket.nameTrain + ", coach: " + response.ticket.coachTrain;
+        // $scope.setValues = ", time: ";
+        $scope.datego = response.ticket.date;
+        $scope.inforticket = "Code train: " + response.ticket._idTrain + ", name train: " + response.ticket.nameTrain + ", coach: " + response.ticket.coachTrain;
         $scope.state = response.ticket.state;
         $scope.money = response.ticket.price;
         $scope.TotalPrice = response.ticket.price;
-        $scope.datebuy = response.ticket.dateBuy;
         $scope.companyname = response.company.nameCompany;
         $scope.taxnumber = response.company.taxNumber;
         $scope.addresscompany = response.company.addressCompany;

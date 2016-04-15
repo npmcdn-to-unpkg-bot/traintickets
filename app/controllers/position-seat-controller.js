@@ -130,7 +130,7 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
       "startStation": $scope.fromStation,
       "endStation"  : $scope.toStation,
       "price"       : price,
-      "state"       : 'buy'
+      "state"       : 'unpaid'
     };
     showLog.show('create seat', envi);
     showLog.show($scope.seatO, envi);
@@ -283,15 +283,19 @@ routerApp.controller('positionController',  function(changeInfor, urlServices, s
             var isPush =  true;
             for(var k = 0; k < $scope.listCustomer.length; k++){
               // get time from the ticket of the customer
-              $scope.datetime = $scope.listCustomer[k].ticket.date;
-              showLog.show('time', envi);
-              showLog.show(Number($scope.datetime) + "-" + Number($scope.time));
-              $scope.sub = $window.Math.abs(Number($scope.datetime) - Number($scope.time));
+              var datetime = $scope.listCustomer[k].ticket.date;
+              showLog.show('timesdasdfasfasd', envi);
+              showLog.show(Number(datetime) + "-" + Number($scope.time), envi);
+              showLog.show(new Date(datetime) + "-" + new Date($scope.time), envi);
+              showLog.show(datetime + " -? " + $scope.time, envi);
+              showLog.show("shit");
+              $scope.sub = $window.Math.abs(Number(datetime) - Number($scope.time));
               if( $scope.sub <= 24*60*60*1000){
                 isPush = false;
                 break;
               }
             }
+            showLog.show('down', envi);
             if(isPush){
               $scope.listSeat.push($scope.seat);
             }
