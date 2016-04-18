@@ -1,6 +1,6 @@
-routerApp.controller('eventController', function(changeInfor, showLog, urlServices ,$scope, $http, $state, $window, toastr) {
+routerApp.controller('EventController', function(ChangeInfor, ShowLog, urlServices ,$scope, $http, $state, $window, toastr) {
     // change infor
-    changeInfor.change('event');
+    ChangeInfor.change('event');
     $http
         .get(urlServices.getURL('event'))
         .success(function(response) {
@@ -38,7 +38,7 @@ routerApp.controller('eventController', function(changeInfor, showLog, urlServic
             }
         })
         .error(function(){
-            
+
             BootstrapDialog.alert("Currently no events. Please come back later!!!");
         });
 

@@ -1,4 +1,4 @@
-routerApp.controller('loginController', function(changeInfor,toastr, showLog, urlServices, $scope, $state, $http, $cookies, $cookieStore) {
+routerApp.controller('LoginController', function(ChangeInfor,toastr, ShowLog, URLServices, $scope, $state, $http, $cookies, $cookieStore) {
     /*
      * INIT
      */
@@ -13,7 +13,7 @@ routerApp.controller('loginController', function(changeInfor,toastr, showLog, ur
     $scope.showPasswordError = false;
     // chagne infor
 
-    changeInfor.change('login');
+    ChangeInfor.change('login');
     toastr.warning('Waiting for update...');
     $state.go('main.home');
 
@@ -43,7 +43,7 @@ routerApp.controller('loginController', function(changeInfor,toastr, showLog, ur
         // login
     $scope.login = function() {
         $http
-            .post(urlServices.getURL('admin'), {
+            .post(URLServices.getURL('admin'), {
                 name: $scope.id,
                 pass: $scope.password
             })

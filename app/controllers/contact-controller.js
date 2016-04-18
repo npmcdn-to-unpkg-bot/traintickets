@@ -1,4 +1,4 @@
-routerApp.controller('contactController',  function(changeInfor, showLog, $scope, $rootScope, $http, $state){
+routerApp.controller('ContactController',  function(ChangeInfor, ShowLog, $scope, $rootScope, $http, $state){
   // change infor
-  changeInfor.change('contact');
+  ChangeInfor.change('contact');
 });

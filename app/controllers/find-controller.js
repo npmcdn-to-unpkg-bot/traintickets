@@ -1,6 +1,6 @@
-routerApp.controller('findController', function(changeInfor, toastr, showLog, urlServices, $scope, $rootScope, $http, $state, $q, localStorageService) {
+routerApp.controller('FindController', function(ChangeInfor, toastr, ShowLog, URLServices, $scope, $rootScope, $http, $state, $q, localStorageService) {
     //change infor
-    changeInfor.change('main');
+    ChangeInfor.change('main');
     var envi = 'product';
     $scope.journey = {
         "listTrain": [],
@@ -38,7 +38,16 @@ routerApp.controller('findController', function(changeInfor, toastr, showLog, ur
         var dateTo =document.getElementById('dateTo').value;
         var dateOneWay = new Date(dateGo);
         var dateRountrip = new Date(dateTo);
-        showLog.show(dateOneWay+" "+ dateRountrip, envi);
+        var currentDate =  new Date();
+        // get hour and time
+
+        ShowLog.show(dateOneWay +" go befor", envi);
+        if(dateOneWay.getDate() == (currentDate).getDate()){// if currrent and dateoneway equals
+          dateOneWay.setHours(currentDate.getHours());
+          dateOneWay.setMinutes(currentDate.getMinutes());
+        }
+            ShowLog.show(dateOneWay +" go after", envi);
+        // ShowLog.show(dateOneWay+" "+ dateRountrip, envi);
         if (!go) {
               $scope.classInputGo = "class-boder-red";
               toastr.error("Please enter your place of departure!!!");
@@ -55,30 +64,30 @@ routerApp.controller('findController', function(changeInfor, toastr, showLog, ur
             // show load ding
             $rootScope.showLoad = "show-load";
         $http
-            .post(urlServices.getURL('train'), {
+            .post(URLServices.getURL('train'), {
                 fromStation: go,
                 toStation: to,
                 time: dateOneWay.getTime()
             })
             .success(function(response, status) {
               $rootScope.showLoad = "hide-load";
-              showLog.show('response', envi);
-              showLog.show(response, envi);
+              ShowLog.show('response', envi);
+              ShowLog.show(response, envi);
               if((typeof response.listTrainResult) != 'undefined' )
               {
                   $scope.journey.listTrain = response.listTrainResult;
                   $scope.journey.fromStation = go;
                   $scope.journey.toStation = to;
                   $scope.journey.time = dateOneWay.getTime();
-                  showLog.show('listGet',envi);
-                  showLog.show(response.listTrainResult, envi);
+                  ShowLog.show('listGet',envi);
+                  ShowLog.show(response.listTrainResult, envi);
                   localStorageService.set('journey', $scope.journey);
                   // set null if don't return
                   localStorageService.set('journeyReturn', null);
                   // if return
                   if($scope.activeButton == false){
                       $http
-                          .post(urlServices.getURL('train'), {
+                          .post(URLServices.getURL('train'), {
                               fromStation: to,
                               toStation: go,
                               time: dateRountrip.getTime()

@@ -11,80 +11,80 @@ routerApp.config(['localStorageServiceProvider', function(localStorageServicePro
       url: '/main',
       abstract: true,
       templateUrl: './app/views/main.html',
-      controller: 'mainController',
+      controller: 'MainController',
     })
     // FIND
     .state('main.home',{
       url: '/home',
       templateUrl: './app/views/find-trains.html',
-      controller: 'findController'
+      controller: 'FindController'
 
     })
     // POSITION
     .state('main.position-seat',{
       url: '/position-seat',
       templateUrl: './app/views/position-seat.html',
-      controller: 'positionController'
+      controller: 'PositionController'
     })
     // REGIST
     .state('main.regist-tickets',{
       url: '/regist-tickets',
       templateUrl: './app/views/regist-tickets.html',
-      controller: 'registTicketsController'
+      controller: 'RegistTicketsController'
     })
     // CONTACT
     .state('main.contact',{
       url: '/contact',
       templateUrl: './app/views/contact.html',
-      controller: 'contactController'
+      controller: 'ContactController'
     })
     // VIEW TIME
     .state('main.viewtime',{
       url: '/viewtime',
       templateUrl: './app/views/timetable.html',
-      controller: 'viewTimeController'
+      controller: 'ViewTimeController'
     })
     // EVENT SHOW
     .state('main.event',{
       url: '/event',
       templateUrl: './app/views/event.html',
-      controller: 'eventController'
+      controller: 'EventController'
     })
     // HELP
     .state('main.guide',{
       url: '/guide',
       templateUrl: './app/views/help.html',
-      controller: 'guideController'
+      controller: 'GuideController'
     })
     // INFORMATION
     .state('main.information',{
       url: '/information',
       templateUrl: './app/views/information.html',
-      controller: 'informationController'
+      controller: 'InformationController'
     })
     // LOGIN
     .state('main.login',{
       url: '/login',
       templateUrl: './app/views/login.html',
-      controller: 'loginController'
+      controller: 'LoginController'
     })
     // ADMIN
     .state('main.admin',{
       url: '/admin',
       templateUrl: './app/views/admin.html',
-      controller: 'adminController'
+      controller: 'AdminController'
     })
     //PROFILE
     .state('main.admin.profile',{
       url: '/profile',
       templateUrl: './app/views/admin-profile.html',
-      controller: 'adminProfileController'
+      controller: 'AdminProfileController'
     })
     //EVENT
     .state('main.admin.event',{
       url: '/event',
       templateUrl: './app/views/admin-event.html',
-      controller: 'adminEventController'
+      controller: 'AdminEventController'
     })
     // //TRAIN
     // .state('main.admin.train',{
@@ -102,7 +102,7 @@ routerApp.config(['localStorageServiceProvider', function(localStorageServicePro
     .state('main.admin.user',{
       url: '/user',
       templateUrl: './app/views/admin-user.html',
-      controller: 'adminUserController'
+      controller: 'AdminUserController'
     })
 
 });

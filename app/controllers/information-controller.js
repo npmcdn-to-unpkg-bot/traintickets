@@ -1,9 +1,14 @@
-routerApp.controller('informationController', function(changeInfor, showLog, urlServices ,$scope, $rootScope, $http, $state) {
+routerApp.controller('InformationController', function(ChangeInfor, ShowLog, URLServices ,$scope, $rootScope, $http, $state) {
 
+  // set active menu
+  $scope.activeInfor = "li-active-menu";
+  ShowLog.show($scope.activeInfor, envi);
   // show
   var envi = 'dev';
-  changeInfor.change('information');
-  showLog.show($rootScope.title);
+  ChangeInfor.change('information');
+
+  ShowLog.show($scope.activeInfor, envi);
+  ShowLog.show($rootScope.title);
   function hidetext() {
     $scope.tickcode = "";
     $scope.seatcode = "";
@@ -36,7 +41,7 @@ routerApp.controller('informationController', function(changeInfor, showLog, url
       });
       hidetext();
     } else {
-      $http.post(urlServices.getURL('customer') +"/" + $scope._idSearch).success(function(response) {
+      $http.post(URLServices.getURL('customer') +"/" + $scope._idSearch).success(function(response) {
 
         $scope.tickcode = response.ticket._id;
         $scope.seatcode = response.ticket.seatNumber;
@@ -76,7 +81,7 @@ routerApp.controller('informationController', function(changeInfor, showLog, url
         message: 'Please type ticket code'
       });
     } else {
-      $http.put(urlServices.getURL('customer') +"/"+ $scope._idDelete).success(function(response) {
+      $http.put(URLServices.getURL('customer') +"/"+ $scope._idDelete).success(function(response) {
         BootstrapDialog.show({
           title: 'Sucessed',
           message: 'You have cacel completed ticket'

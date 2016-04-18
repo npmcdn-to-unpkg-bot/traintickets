@@ -1,4 +1,4 @@
-routerApp.controller('adminProfileController',  function($scope, $http, $state){
+routerApp.controller('AdminProfileController',  function($scope, $http, $state){
   /*
   * INIT
   */

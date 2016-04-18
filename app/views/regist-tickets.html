@@ -1,4 +1,7 @@
 <div id="div-register"  class="container div-container">
+  <div id="div-time-ticket" ng-class="viewTimeKeepTicket"  title="Time keep your ticket.">
+      <span  style="font-weight: bold;line-height: 80px;font-size: 2em;color: white;">{{timeKeepListTicket}}s</span>
+  </div>
   <!-- journey -->
   <div class="div-title" ><span class="span-label">INFORMATION OF TICKET CART</span></div>
 
@@ -158,7 +161,7 @@ Type: {{thirdTicket.typeSeat}}"
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <label>Email</label>
-            <input ng-disabled="isDisabledElement" ng-model= "firstCustomerEmail" type="email" ng-chang class="form-control" placeholder="somthing@example.com">
+            <input ng-disabled="isDisabledElement" ng-model= "firstCustomerEmail" type="email"  class="form-control" placeholder="somthing@example.com">
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <label>Phone number</label>
@@ -166,7 +169,7 @@ Type: {{thirdTicket.typeSeat}}"
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <label>Address</label>
-            <input ng-disabled="isDisabledElement" ng-model= "firstCustomerAddress" type="number" class="form-control" placeholder="">
+            <input ng-disabled="isDisabledElement" ng-model= "firstCustomerAddress"  class="form-control" placeholder="">
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <br>

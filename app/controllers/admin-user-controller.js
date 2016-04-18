@@ -1,3 +1,3 @@
-routerApp.controller('adminUserController',  function($scope, $http, $state){
+routerApp.controller('AdminUserController',  function($scope, $http, $state){
 
 });

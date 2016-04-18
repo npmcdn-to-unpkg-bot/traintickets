@@ -1,3 +1,3 @@
-routerApp.controller('adminEventController',  function($scope, $http, $state){
+routerApp.controller('AdminEventController',  function($scope, $http, $state){
 
 });

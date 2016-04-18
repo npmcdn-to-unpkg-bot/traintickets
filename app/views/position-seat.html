@@ -5,8 +5,8 @@
         <li class="li-menu-train active" ng-click="changeJourney()" >Departing</li>
         <li class="li-menu-train" ng-click="changeJourneyReturn()">Return</li>
       </ul>
-      <div class="div-list-train" ng-animate='animate'>
-      <div class="div-train" ng-animate='animate' ng-repeat=" train in trainsActive" ng-click="changeListCoach(this)">
+      <div class="div-list-train " ng-animate='animate'>
+      <div class="div-train col-xs-12 col-sm-12 col-md-2 col-lg-2" ng-animate='animate' ng-repeat=" train in trainsActive" ng-click="changeListCoach(this)">
         <span >ID: {{train._id}} </span><br>
         <span >Name: {{train.title}} </span><br>
         <span> Time: {{convertTime(time, currentTime) | date:'yyyy/MM/dd HH:mm:ss'}}</span><br>
@@ -53,7 +53,7 @@
         </div>
 
     </div>
-          <button  ng-click="changeSate()" class="btn  btn-default btn-md btn-buy-card">
+          <button  ng-click="changeState()" class="btn  btn-default btn-md btn-buy-card">
             Buy</button>
     </div>
   </div>

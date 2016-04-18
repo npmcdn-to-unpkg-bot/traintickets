@@ -1,4 +1,4 @@
-routerApp.controller('guideController',  function(changeInfor, showLog, $scope, $http, $state){
+routerApp.controller('GuideController',  function(ChangeInfor, ShowLog, $scope, $http, $state){
   // change infor
-  changeInfor.change('guide');
+  ChangeInfor.change('guide');
 });

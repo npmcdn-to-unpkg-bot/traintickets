@@ -1,8 +1,16 @@
-routerApp.controller('registTicketsController',  function(changeInfor, showLog, urlServices, $scope, $http, $state, toastr, $interval, $timeout){
+routerApp.controller('RegistTicketsController',  function(ChangeInfor, ShowLog, URLServices, $window, $scope, $rootScope, $http, $state, toastr, $interval, $timeout){
   /*
   * INIT
   */
-  // type objects of the customer when they register the train ticket.
+  /**
+   * type object into ticket object.
+   * @type {Array}
+   * each Object in array
+   * 			@attribute {String} name : name of object
+   * 			@attribute {Number} discount : discount rate together each object
+   * 			@attribute {Array} event : events corresponding discounts
+   * 			@attribute {String} titlte : addtional information
+   */
   $scope.objects = [
     {
       'name'    : 'Adult',
@@ -23,7 +31,10 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
       'title'   :'than 100 age.'
     },
   ];
-  // company's information of customer
+  /**
+   * company's information of the customer
+   * @type {Object}
+   */
   var companyCustomer = {
     "nameCompany"     : '',
     "taxNumber"       : '',
@@ -86,177 +97,127 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
 
   // text of the submit button
   $scope.btnContent = 'Register';
-  // the submit button has two value
-  // value: true: click to register the ticket
-  // value: false: save the regist to image
-  var isRegister   =  true;
-  // container
-  $scope.isDisabledElement = false;
-  // enviroment to show log when dev write code
-  // dev: show log at browser. other value is hide.
-  var envi = 'dev';
-  //change infor page
-  changeInfor.change('register');
-  /*
-  * METHODS
+  /* time keep list ticket for customer register
+  * default value is 7minutes
   */
-  // check input when customer fill information
-  // index is position of the ticket. value is Number
-  // return: show message for customer know if they fill wrong information
-  $scope.changeName = function(index){
-    switch (index) {
-      case 1:// first ticket
-        showLog.show($scope.inputNameFirstTicket, envi);
-        // when customer don't fill name or fill 1 letter
-        // $scope.inputNameFirstTicket has value undefined
-        if((typeof $scope.inputNameFirstTicket) != 'undefined')
-        {
-          var len = $scope.inputNameFirstTicket.length;
-          var chLast = $scope.inputNameFirstTicket.charAt(len-1);
-          showLog.show(len, envi);
-          showLog.show($scope.inputNameFirstTicket, envi);
-          if((Number(chLast) > 0)){
-            // show error
-            toastr.error('Name Cannot have any number.','ERROR',{timeOut:timOutToastr});
-            // delete number letter
-            $scope.inputNameFirstTicket = $scope.inputNameFirstTicket.substring(0, len-1);
+  $scope.timeKeepListTicket = 420;
+  // ng-class: show or hide div timeKeepListTicket
+  $scope.viewTimeKeepTicket = "show-div-time-ticket";
+  /* the submit button has two value
+  * value: true: click to register the ticket
+  * 			 false: save the regist to image
+  */
+  var isRegister   =  true;
+
+ /*
+  * array flag to check event register the tickets on server
+  * value of each element into array: type{String}
+  * 				registered:     registered successlly
+  * 				unregistered:   registered fail
+  * 				waitregistered: waiting registered from server(default value)
+  * 				connecterror:   cannot connect to the server.
+  */
+  var arrayRegister = ['waitregistered', 'waitregistered', 'waitregistered'];
+
+  /*when customer enter registerpage, after 7 minutes if customer don't register the tickets successlly
+  * system auto delete all list ticket an back home.
+  */
+  var timeKeepTicket = '';
+  // using assign $interval which loop for wait the server return response
+  var timeWaitServer = '';
+  // if the customer registered successlly, after disabled all element of the page
+  // to wait the customer save image or other handle
+  $scope.isDisabledElement = false;
+  /* enviroment to show log on browser
+  *  value   dev: show log on browser.
+  *  				other value is hide.
+  */
+  var envi = 'dev';
+  //change information of page
+  ChangeInfor.change('register');
+  /*
+  * METHODS $SCOPE
+  */
+
+  /**
+   * check input name of customer when customer fill name
+   * @param  {Number} index : position of the ticket
+   * @return none;
+   */
+     $scope.changeName = function(index){
+      switch (index) {
+        case 1:// first ticket
+          // ShowLog.show($scope.inputNameFirstTicket, envi);
+
+          // when customer don't fill name or fill 1 letter
+          // $scope.inputNameFirstTicket has value undefined
+          if((typeof $scope.inputNameFirstTicket) != 'undefined')
+          {
+            var len = $scope.inputNameFirstTicket.length;
+            var chLast = $scope.inputNameFirstTicket.charAt(len-1);
+            // ShowLog.show(len, envi);
+            // ShowLog.show($scope.inputNameFirstTicket, envi);
+            if((Number(chLast) > 0)){
+              // show error
+              toastr.error('Name Cannot have any number.','ERROR',{timeOut:timOutToastr});
+              // delete number letter
+              $scope.inputNameFirstTicket = $scope.inputNameFirstTicket.substring(0, len-1);
+            }
           }
+          break;
+        case 2:// second ticket
+
+          if((typeof $scope.inputNameSecondTicket) != 'undefined')
+            {var len = $scope.inputNameSecondTicket.length;
+            var chLast = $scope.inputNameSecondTicket.charAt(len-1);
+            if((Number(chLast) > 0)){
+              toastr.error('Cannot write number here.','ERROR',{timeOut:timOutToastr});
+              if(len == 1)
+                $scope.inputNameSecondTicket = "undefined";
+              else
+              $scope.inputNameSecondTicket = $scope.inputNameSecondTicket.substring(0, len-1);
+            }}
+          break;
+        case 3:// third ticket
+          if((typeof $scope.inputNameThirdTicket) != 'undefined')
+          {  var len = $scope.inputNameThirdTicket.length;
+            var chLast = $scope.inputNameThirdTicket.charAt(len-1);
+            if((Number(chLast) > 0)){
+              toastr.error('Cannot write number here.','ERROR',{timeOut:timOutToastr});
+              if(len == 1)
+                $scope.inputNameThirdTicket = "undefined";
+              else
+              $scope.inputNameThirdTicket = $scope.inputNameThirdTicket.substring(0, len-1);
+            }}
+          break;
+
         }
-        break;
-      case 2:// second ticket
-
-        if((typeof $scope.inputNameSecondTicket) != 'undefined')
-          {var len = $scope.inputNameSecondTicket.length;
-          var chLast = $scope.inputNameSecondTicket.charAt(len-1);
-          if((Number(chLast) > 0)){
-            toastr.error('Cannot write number here.','ERROR',{timeOut:timOutToastr});
-            if(len == 1)
-              $scope.inputNameSecondTicket = "undefined";
-            else
-            $scope.inputNameSecondTicket = $scope.inputNameSecondTicket.substring(0, len-1);
-          }}
-        break;
-      case 3:// third ticket
-        if((typeof $scope.inputNameThirdTicket) != 'undefined')
-        {  var len = $scope.inputNameThirdTicket.length;
-          var chLast = $scope.inputNameThirdTicket.charAt(len-1);
-          if((Number(chLast) > 0)){
-            toastr.error('Cannot write number here.','ERROR',{timeOut:timOutToastr});
-            if(len == 1)
-              $scope.inputNameThirdTicket = "undefined";
-            else
-            $scope.inputNameThirdTicket = $scope.inputNameThirdTicket.substring(0, len-1);
-          }}
-        break;
-
     }
-  }
-    // when customer choose ticket's object
+    /**
+     * handling event: the customer click choose type object of the ticket
+     * @param  {String} name : name of the ticket.
+     * @return no return
+     */
     $scope.chooseObject =  function(name){
       chooseObjectVar(name);
     }
 
-    // remove the ticket
-    // index is position of ticket in the list tickets
+    /**
+     * handling event:  the customer remove a ticket from the ticket list.
+     * @param  {Numbere} index : position of the ticket
+     * @return no return
+     */
     $scope.removeTicket  =  function(index){
       removeTicketVar(index);
     }
-    //
-    var removeTicketVar =  function(index){
-      // remove the first ticket
-     if(index == '1'){
-       if(ticketRegisterNumber == 3) {// if list have three ticket
-         // update number of list ticket
-         ticketRegisterNumber     -= 1;
-         // move second ticket to first ticket
-         $scope.showFirstTicket  = true;
-         $scope.firstTicket     = $scope.secondTicket;
-         $scope.firstDefaultPrice= $scope.secondDefaultPrice;
-         $scope.firstDiscout     = $scope.secondCustomerDiscount;
-         // set name and id
-         $scope.inputNameFirstTicket =$scope.inputNameSecondTicket;
-         $scope.inputIDFirstTicket = $scope.inputIDSecondTicket;
 
-         //move three to two
-         $scope.showSecondTicket  = true;
-         $scope.secondTicket     = $scope.thirdTicket;
-         $scope.secondDefaultPrice= $scope.thirdDefaultPrice;
-         $scope.secondCustomerDiscount     = $scope.thirdCustomerDiscount;
-         // set name and id
-         $scope.inputNameSecondTicket =$scope.inputNameThirdTicket;
-         $scope.inputIDSecondTicket = $scope.inputIDThirdTicket;
-
-         // delete three ticket
-         $scope.showThirdTicket  = false;
-         $scope.thirdTicket      = '';
-         $scope.thirdDefaultPrice    = 0;
-         $scope.thirdCustomerDiscount      = 0;
-
-       }else if(ticketRegisterNumber == 2){// if list have two tickets
-         ticketRegisterNumber     -= 1;
-         $scope.showFirstTicket  = true;
-         $scope.firstTicket     = $scope.secondTicket;
-         $scope.firstDefaultPrice= $scope.secondDefaultPrice;
-         $scope.firstDiscout     = $scope.secondCustomerDiscount;
-         // set name and id
-         $scope.inputNameFirstTicket =$scope.inputNameSecondTicket;
-         $scope.inputIDFirstTicket = $scope.inputIDSecondTicket;
-         //move three to two
-         $scope.showSecondTicket  = false;
-         $scope.secondTicket     = '';
-         $scope.secondDefaultPrice= 0;
-         $scope.secondCustomerDiscount     = 0;
-       }else{
-         $scope.showFirstTicket  = false;
-         $scope.firstTicket      = '';
-         $scope.firstDefaultPrice    = 0;
-         $scope.firstDiscout      = 0;
-       }
-
-    }else if(index  == '2'){ // remove second ticket
-     if(ticketRegisterNumber == 3) {// if list have three tickets
-       //move three to two
-       ticketRegisterNumber     -= 1;
-       $scope.showSecondTicket  = true;
-       $scope.secondTicket     = $scope.thirdTicket;
-       $scope.secondDefaultPrice= $scope.thirdDefaultPrice;
-       $scope.secondCustomerDiscount     = $scope.thirdCustomerDiscount;
-       // set name and id
-       $scope.inputNameSecondTicket =$scope.inputNameThirdTicket;
-       $scope.inputIDSecondTicket = $scope.inputIDThirdTicket;
-       // delete three ticket
-       $scope.showThirdTicket  = false;
-       $scope.thirdTicket      = '';
-       $scope.thirdDefaultPrice    = 0;
-       $scope.thirdCustomerDiscount      = 0;
-
-     }else{// if list have two tickets
-       ticketRegisterNumber     -= 1;
-       $scope.showSecondTicket  = false;
-       $scope.secondTicket      = '';
-       $scope.secondDefaultPrice    = 0;
-       $scope.secondCustomerDiscount      = 0;
-     }
-   }else if(index == '3'){// remove third ticket
-         ticketRegisterNumber     -= 1;
-         $scope.showThirdTicket  = false;
-         $scope.thirdTicket      = '';
-         $scope.thirdDefaultPrice    = 0;
-         $scope.thirdCustomerDiscount      = 0;
-   }
-   // check list of ticket if it is empty change state to main.home
-   if( ((typeof $scope.firstTicket) == 'string')
-       && ((typeof $scope.secondTicket) == 'string')
-       && ((typeof $scope.thirdTicket) == 'string' )){
-         $state.go('main.home');
-       }
-   // update total price
-   $scope.total = $scope.thirdDefaultPrice - $scope.thirdCustomerDiscount + $scope.secondDefaultPrice - $scope.secondCustomerDiscount
-                 + $scope.firstDefaultPrice - $scope.firstDiscout;
-    }
-
-    // register the ticket
+    /**
+     * event register one or list of the tikcets.
+     * @return none
+     */
     $scope.registerTicket  =  function(){
+      // reset value
+      arrayRegister = ['waitregistered', 'waitregistered', 'waitregistered'];
       // if cutomer is at register state.
       if(isRegister){
         // flag is mark ticket's sate
@@ -267,7 +228,7 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
 
         // reset list of customer
         listRegisterCustomer = [3];
-        // check customer's information
+        // === check customer's information
 
         // the first ticket
         // typeof $scope.firstTicket = string: first ticket not have information
@@ -305,14 +266,36 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
              $scope.classFirstTicketID = "";
              isFirstCustomerID = true;
            }
+           // flag customer's information additional
+           var isFirstCustomerInforAddtional = false;
+           // get addtional information for customer
+           var email = $scope.firstCustomerEmail;
+           var phone = $scope.firstCustomerPhone;
+           var address = $scope.firstCustomerAddress;
+           if(validEmail(email) && checkInput(email) && checkInput(phone) && checkInput(address)){
+              isFirstCustomerInforAddtional =  true;
+            }else{
+              //check each element
+              if(!checkInput(email)){
+                toastr.error('Email of <lable id="lbl-error-toasrt">Customer</lable> failed.'
+                             ,'Error',{allowHtml:true, timeOut: timOutToastr});
+              }
+              if(!validEmail(email))
+              toastr.error('Your Email of <lable id="lbl-error-toasrt">was not correct formating.</lable>'
+                           ,'Error',{allowHtml:true, timeOut: timOutToastr});
+              if(!checkInput(phone)){
+                toastr.error('Phone number of <lable id="lbl-error-toasrt">Customer</lable> failed.'
+                             ,'Error',{allowHtml:true, timeOut: timOutToastr});
+              }
+              if(!checkInput(address)){
+                toastr.error('Address of <lable id="lbl-error-toasrt">Customer</lable> failed.'
+                             ,'Error',{allowHtml:true, timeOut: timOutToastr});
+              }
+            }
            // if name and id of customer are correct, so create customer prepare to save database.
-           if(isFirstCustomerName && isFirstCustomerID){
+           if(isFirstCustomerName && isFirstCustomerID && isFirstCustomerInforAddtional){
              // first customer's iformation is correct so
              isFirstCustomer = true;
-             // get addtional information for customer
-             var email = $scope.firstCustomerEmail;
-             var phone = $scope.firstCustomerPhone;
-             var address = $scope.firstCustomerAddress;
              // addtional the company's information
              companyCustomer.nameCompany = $scope.firstCompanyName;
              companyCustomer.taxNumber = $scope.firstTaxCompany;
@@ -357,7 +340,7 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
             $scope.classSecondTicketID = "";
             isSecondCustomerID = true;
           }
-          // made customer
+          // create customer
           if(isSecondCustomerName && isSecondCustomerID){
             isSecondCustomer = true;
             var customer =  createCustomer(secondCustomerID, secondCustomerName
@@ -408,159 +391,13 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
           if(!isTrueInfor){
             return;
           }
-          // disabled all compenent on page when register successfully.
-          $scope.isDisabledElement = true;
-          // change state submit button to save image
-          isRegister =  false;
-          // change text of submit button
-          if(!isRegister){
-            $scope.btnContent = 'Save Image';
-          }else{
-            $scope.btnContent = 'Register';
-          }
-          // save customer to server
-          // save third customer.
-          $http.post(urlServices.getURL('customer'), listRegisterCustomer[2])
-                .success(function (data, status, headers, config) {
-                  // inform customer save third customer successfully
-                  toastr.success('Name: '+ listRegisterCustomer[2].name
-                                +" \n"+listRegisterCustomer[2]._id+" success", 'Registed',
-                                {timeOut: timOutToastr});
-                  // continue save second customer
-                  $http.post(urlServices.getURL('customer'), listRegisterCustomer[1])
-                        .success(function (data, status, headers, config) {
-                          // inform customer save second customer successfully
-                          toastr.success('Name: '+ listRegisterCustomer[1].name
-                                      +" \n"+listRegisterCustomer[1]._id+" success", 'Registed',
-                                      {timeOut: timOutToastr});
-                          // continue save first customer
-                          $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                                .success(function (data, status, headers, config) {
-                                  // inform customer save first customer successfully
-                                  toastr.success('Name: '+ listRegisterCustomer[0].name
-                                                  +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                                                  {timeOut: timOutToastr});
-                                })
-                                .error(function (data, status, header, config) {
-                                  // if server cannot connect, inform customer.
-                                  if(data == null){
-                                    toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                                'Error',{timeOut:timOutToastr});
-                                    // change submit button to register state
-                                    isRegister = true;
-                                    // stop here
-                                    return;
-                                  }
-                                  // inform customer know server cannot register cusomter's ticket
-                                  toastr.error('Name: '+ listRegisterCustomer[0].name
-                                                  +" \n"+listRegisterCustomer[0]._id+" "+ data.error,'Error',{timeOut:timOutToastr});
-                                  // remove this ticket
-                                  removeTicketVar(1);
-                                });
-                        })
-                        .error(function (data, status, header, config) {
-                          // if server cannot connect, inform customer.
-                          if(data == null){
-                            toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                        'Error',{timeOut:timOutToastr});
-                            // change submit button to register state
-                            isRegister = true;
-                            // stop here
-                            return;
-                          }
-                          // inform customer know server cannot register cusomter's ticket
-                          toastr.error('Name: '+ listRegisterCustomer[1].name
-                                          +" \n"+listRegisterCustomer[1]._id+" "+data,'Error',{timeOut:timOutToastr});
-                          // remove this ticket
-                          removeTicketVar(2);
-                          // continue save first ticket
-                          $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                                .success(function (data, status, headers, config) {
-
-                                  toastr.success('Name: '+ listRegisterCustomer[0].name
-                                  +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                                  {timeOut: timOutToastr});
-                                })
-                                .error(function (data, status, header, config) {
-
-                                  if(data == null){
-                                    toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                                'Error',{timeOut:timOutToastr});
-                                    isRegister = true;
-                                    return;
-                                  }
-
-                                  toastr.error('Name: '+ listRegisterCustomer[0].name
-                                                  +" \n"+listRegisterCustomer[0]._id+" "+data,'Error',{timeOut:timOutToastr});
-                                  removeTicketVar(1);
-                                });
-                        });
-                })
-                // error from third ticket
-                .error(function (data, status, header, config) {
-
-                  if(data == null){
-                    toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                'Error',{timeOut:timOutToastr});
-                    // set enable elements
-                    $scope.btnContent = 'Register';
-                    $scope.isDisabledElement = true;
-                    isRegister = true;
-                    return;
-                  }
-                  toastr.error('Name: '+ listRegisterCustomer[2].name
-                                  +" \n"+listRegisterCustomer[2]._id+" "+data.error,'Error',{timeOut:timOutToastr});
-                  removeTicketVar(3);
-                  //continue save second ticket
-                  $http.post(urlServices.getURL('customer'), listRegisterCustomer[1])
-                        .success(function (data, status, headers, config) {
-                          toastr.success('Name: '+ listRegisterCustomer[1].name
-                          +" \n"+listRegisterCustomer[1]._id+" success", 'Registed',
-                          {timeOut: timOutToastr});
-                          // continue save first ticket
-                          $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                                .success(function (data, status, headers, config) {
-                                  toastr.success('Name: '+ listRegisterCustomer[0].name
-                                  +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                                  {timeOut: timOutToastr});
-                                })
-                                .error(function (data, status, header, config) {
-                                  toastr.error('Name: '+ listRegisterCustomer[0].name
-                                                  +" \n"+listRegisterCustomer[0]._id+" "+data,'Error',{timeOut:timOutToastr});
-                                  removeTicketVar(1);
-                                });
-                        })
-                        .error(function (data, status, header, config) {
-                          if(data == null){
-                            toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                        'Error',{timeOut:timOutToastr});
-                            // set enable elements
-                            $scope.btnContent = 'Register';
-                            $scope.isDisabledElement = true;
-                            return;
-                          }
-                          toastr.error('Name: '+ listRegisterCustomer[1].name
-                                          +" \n"+listRegisterCustomer[1]._id+" "+data.error,'Error',{timeOut:timOutToastr});
-                          removeTicketVar(2);
-                          $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                                .success(function (data, status, headers, config) {
-                                  toastr.success('Name: '+ listRegisterCustomer[0].name
-                                  +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                                  {timeOut: timOutToastr});
-                                })
-                                .error(function (data, status, header, config) {
-                                  if(data == null){
-                                    toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                                'Error',{timeOut:timOutToastr});
-                                    return;
-                                  }
-                                  toastr.error('Name: '+ listRegisterCustomer[0].name
-                                                  +" \n"+listRegisterCustomer[0]._id+" "+data.error,'Error',{timeOut:timOutToastr});
-                                  removeTicketVar(1);
-                                });
-                        });
-                });
-
+          $rootScope.showLoad = "show-load";
+          // save on the server
+          saveCustomerOnServer(listRegisterCustomer[0], arrayRegister, 0);
+          saveCustomerOnServer(listRegisterCustomer[1], arrayRegister, 1);
+          saveCustomerOnServer(listRegisterCustomer[2], arrayRegister, 2);
+          // wait rusult from server
+          waitReigsterFromServer();
 
         }else if((ticketRegisterNumber == 2) && isFirstCustomer && isSecondCustomer){// save two ticket
 
@@ -568,95 +405,20 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
           if(!isTrueInfor){
             return;
           }
-          //
-          isRegister =  false;
-          if(!isRegister){
-            $scope.btnContent = 'Save image';
-          }else{
-            $scope.btnContent = 'Register';
-          }
-          $scope.isDisabledElement = true;
-          $http.post(urlServices.getURL('customer'), listRegisterCustomer[1])
-                .success(function (data, status, headers, config) {
-                  toastr.success('Name: '+ listRegisterCustomer[1].name
-                  +" \n"+listRegisterCustomer[1]._id+" success", 'Registed',
-                  {timeOut: timOutToastr});
+          $rootScope.showLoad = "show-load";
+          // save on the server
+          saveCustomerOnServer(listRegisterCustomer[0], arrayRegister, 0);
+          saveCustomerOnServer(listRegisterCustomer[1], arrayRegister, 1);
+          // wait rusult from server
+          waitReigsterFromServer();
 
-                  $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                        .success(function (data, status, headers, config) {
-                          toastr.success('Name: '+ listRegisterCustomer[0].name
-                          +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                          {timeOut: timOutToastr});
-
-                        })
-                        .error(function (data, status, header, config) {
-                          if(data == null){
-                            toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                        'Error',{timeOut:timOutToastr});
-                            isRegister = true;
-                            return;
-                          }
-                          toastr.error('Name: '+ listRegisterCustomer[0].name
-                                          +" \n"+listRegisterCustomer[0]._id+" "+data,'Error',{timeOut:timOutToastr});
-                          removeTicketVar(1);
-                        });
-                })
-                .error(function (data, status, header, config) {
-                  if(data == null){
-                    toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                'Error',{timeOut:timOutToastr});
-                    isRegister = true;
-                    return;
-                  }
-                  toastr.error('Name: '+ listRegisterCustomer[1].name
-                                  +" \n"+listRegisterCustomer[1]._id+" "+data,'Error',{timeOut:timOutToastr});
-                  removeTicketVar(2);
-                  //save firt ticket
-                  $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                        .success(function (data, status, headers, config) {
-                          toastr.success('Name: '+ listRegisterCustomer[0].name
-                          +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                          {timeOut: timOutToastr});
-
-                        })
-                        .error(function (data, status, header, config) {
-                          if(data == null){
-                            toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                        'Error',{timeOut:timOutToastr});
-                            isRegister = true;
-                            return;
-                          }
-                          toastr.error('Name: '+ listRegisterCustomer[0].name
-                                          +" \n"+listRegisterCustomer[0]._id+" "+data,'Error',{timeOut:timOutToastr});
-                          removeTicketVar(1);
-                        });
-                });
-              }
-        else if( (ticketRegisterNumber == 1) && isFirstCustomer){
-          isRegister =  false;
-          $scope.isDisabledElement = true;
-          if(!isRegister){
-            $scope.btnContent = 'Save image';
-          }else{
-            $scope.btnContent = 'Register';
-          }
-          $http.post(urlServices.getURL('customer'), listRegisterCustomer[0])
-                .success(function (data, status, headers, config) {
-                  toastr.success('Name: '+ listRegisterCustomer[0].name
-                  +" \n"+listRegisterCustomer[0]._id+" success", 'Registed',
-                  {timeOut: timOutToastr});
-                })
-                .error(function (data, status, header, config) {
-                  if(data == null){
-                    toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
-                                'Error',{timeOut:timOutToastr});
-                    isRegister = true;
-                    return;
-                  }
-                  toastr.error('Name: '+ listRegisterCustomer[0].name
-                                  +" \n"+listRegisterCustomer[0]._id+" "+data,'Error',{timeOut:timOutToastr});
-                  removeTicketVar(1);
-                });
+      }
+        else if( (ticketRegisterNumber == 1) && isFirstCustomer){// líst ticket has one element
+          $rootScope.showLoad = "show-load";
+          // save on the server
+          saveCustomerOnServer(listRegisterCustomer[0], arrayRegister, 0);
+          // wait rusult from server
+          waitReigsterFromServer();
         }else{
           toastr.warning('Information failed', 'WARNING',{timeOut: timOutToastr});
         }
@@ -666,21 +428,333 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
         saveImage();
       }
     }
+
     /*
-    * METHOD
+    * METHOD VAR
     */
-    // event choose object of ticket
-    // name is order of the ticket
+   /**
+    *
+    * @return {[type]} [description]
+    */
+   var waitReigsterFromServer =  function(){
+     // loop for wait response from the server
+     var timeLeft = 1000;
+     timeWaitServer = $interval(function () {
+       ShowLog.show(arrayRegister[0] + " "+ arrayRegister[1] + " "+ arrayRegister[2]);
+       // time increase to 1 second
+       timeLeft += 1000;
+       ShowLog.show('lop '+ timeLeft, envi);
+       // if the server return response before 35 second;
+       if(ticketRegisterNumber == 3
+          && arrayRegister[0] != 'waitregistered'
+          && arrayRegister[1] != 'waitregistered'
+          && arrayRegister[2] != 'waitregistered'){
+            $rootScope.showLoad = "hide-load";
+            // handle generate
+            // disabled all element in page
+            $scope.isDisabledElement = true;
+            // handle each result
+            if(arrayRegister[0] == 'connecterror'
+                && arrayRegister[1] == 'connecterror'
+                && arrayRegister[2] == 'connecterror'){
+              $scope.isDisabledElement = false;
+            }else if(arrayRegister[0] == 'registered'
+                || arrayRegister[1] == 'registered'
+                || arrayRegister[2] == 'registered'){
+              isRegister =  false;
+              $scope.btnContent = "Save image";
+              sendMail(listRegisterCustomer);
+            }
+            stopWaitServer();
+       }else if(ticketRegisterNumber == 2
+                && arrayRegister[0] != 'waitregistered'
+                && arrayRegister[1] != 'waitregistered'){
+              $rootScope.showLoad = "hide-load";
+              // handle generate
+              // disabled all element in page
+              $scope.isDisabledElement = true;
+              // handle each result
+              if(arrayRegister[0] == 'connecterror'
+                  && arrayRegister[1] == 'connecterror'){
+                $scope.isDisabledElement = false;
+              }else if(arrayRegister[0] == 'registered'
+                  || arrayRegister[1] == 'registered'){
+                isRegister =  false;
+                $scope.btnContent = "Save image";
+                sendMail(listRegisterCustomer);
+              }
+              stopWaitServer();
+       }else if(ticketRegisterNumber == 1
+                && arrayRegister[0] != 'waitregistered'){
+            // ShowLog.show('a ticket', envi);
+            // ShowLog.show(arrayRegister[0], envi);
+            // handle generate
+            // disabled all element in page
+            $scope.isDisabledElement = true;
+            // hide div load
+            $rootScope.showLoad = "hide-load";
+            // handle each result
+            if(arrayRegister[0] == 'connecterror'){
+              $scope.isDisabledElement = false;
+            }else if(arrayRegister[0] == 'registered'){
+              isRegister =  false;
+              $scope.btnContent = "Save image";
+              sendMail(listRegisterCustomer);
+            }
+            stopWaitServer();
+       }
+
+       if(timeLeft === 35000){// wait the server about 35 seconds
+
+         //stop loop
+         stopWaitServer();
+       }
+     }, 1000);
+   }
+   /**
+    * stop loop
+    * @return none;
+    */
+   var stopWaitServer = function(){
+      $interval.cancel(timeWaitServer);
+      timeWaitServer = undefined;
+   }
+    /**
+     * save customer to the server(in other words, register the tickets)
+     * @param  {Object} customer      customer's infotmation
+     * @param  {Array} arrayRegister  flag check result register ticket event
+     * @param  {Number} position      postion the ticket will be register
+     * @return none
+     */
+    var saveCustomerOnServer =  function(customer, arrayRegister, position  ){
+      $http.post(URLServices.getURL('customer'), customer,{timeout: 25000})
+          	.success(function (data, status, headers, config) {
+          	   // show inform for the customer
+          	  toastr.success('Name: '+ customer.name
+          	  +" \n"+customer._id+" success", 'Registed',
+          	  {timeOut: timOutToastr});
+              // assign result
+              arrayRegister[position] = 'registered';
+          	})
+          	.error(function (data, status, header, config) {
+
+          	  if(data == null){
+          		toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
+          					'Error',{timeOut:timOutToastr});
+                arrayRegister[position] = 'connecterror';
+                // stop
+            		return;
+          	  }
+              arrayRegister[position] = 'unregistered';
+          	  toastr.error('Name: '+ customer.name
+          					  +" \n"+customer._id+" "+data.error,'Error',{timeOut:30000});
+              // delete the ticket from ticket list
+          	  removeTicketVar(Number(position) + 1);
+          	});
+    }
+    /**
+     * handling event:  the customer remove a ticket from the ticket list.
+     * @param  {Numbere} index : position of the ticket
+     * @return no return
+     */
+    var removeTicketVar =  function(index){
+      // remove the first ticket
+     if(index == '1'){
+       if(ticketRegisterNumber == 3) {// if list have three ticket
+         // update number of list ticket
+         ticketRegisterNumber     -= 1;
+         // move second ticket to first ticket
+         $scope.showFirstTicket  = true;
+         $scope.firstTicket     = $scope.secondTicket;
+         $scope.firstDefaultPrice= $scope.secondDefaultPrice;
+         $scope.firstCustomerDiscount     = $scope.secondCustomerDiscount;
+         // set name and id
+         $scope.inputNameFirstTicket =$scope.inputNameSecondTicket;
+         $scope.inputIDFirstTicket = $scope.inputIDSecondTicket;
+
+         //move three to two
+         $scope.showSecondTicket  = true;
+         $scope.secondTicket     = $scope.thirdTicket;
+         $scope.secondDefaultPrice= $scope.thirdDefaultPrice;
+         $scope.secondCustomerDiscount     = $scope.thirdCustomerDiscount;
+         // set name and id
+         $scope.inputNameSecondTicket =$scope.inputNameThirdTicket;
+         $scope.inputIDSecondTicket = $scope.inputIDThirdTicket;
+
+         // delete three ticket
+         $scope.showThirdTicket  = false;
+         $scope.thirdTicket      = '';
+         $scope.thirdDefaultPrice    = 0;
+         $scope.thirdCustomerDiscount      = 0;
+
+       }else if(ticketRegisterNumber == 2){// if list have two tickets
+         ticketRegisterNumber     -= 1;
+         $scope.showFirstTicket  = true;
+         $scope.firstTicket     = $scope.secondTicket;
+         $scope.firstDefaultPrice= $scope.secondDefaultPrice;
+         $scope.firstCustomerDiscount     = $scope.secondCustomerDiscount;
+         // set name and id
+         $scope.inputNameFirstTicket =$scope.inputNameSecondTicket;
+         $scope.inputIDFirstTicket = $scope.inputIDSecondTicket;
+         //move three to two
+         $scope.showSecondTicket  = false;
+         $scope.secondTicket     = '';
+         $scope.secondDefaultPrice= 0;
+         $scope.secondCustomerDiscount     = 0;
+       }else{
+         $scope.showFirstTicket  = false;
+         $scope.firstTicket      = '';
+         $scope.firstDefaultPrice    = 0;
+         $scope.firstCustomerDiscount      = 0;
+       }
+
+     }else if(index  == '2'){ // remove second ticket
+       if(ticketRegisterNumber == 3) {// if list have three tickets
+         //move three to two
+         ticketRegisterNumber     -= 1;
+         $scope.showSecondTicket  = true;
+         $scope.secondTicket     = $scope.thirdTicket;
+         $scope.secondDefaultPrice= $scope.thirdDefaultPrice;
+         $scope.secondCustomerDiscount     = $scope.thirdCustomerDiscount;
+         // set name and id
+         $scope.inputNameSecondTicket =$scope.inputNameThirdTicket;
+         $scope.inputIDSecondTicket = $scope.inputIDThirdTicket;
+         // delete three ticket
+         $scope.showThirdTicket  = false;
+         $scope.thirdTicket      = '';
+         $scope.thirdDefaultPrice    = 0;
+         $scope.thirdCustomerDiscount      = 0;
+
+       }else{// if list have two tickets
+         ticketRegisterNumber     -= 1;
+         $scope.showSecondTicket  = false;
+         $scope.secondTicket      = '';
+         $scope.secondDefaultPrice    = 0;
+         $scope.secondCustomerDiscount      = 0;
+       }
+     }else if(index == '3'){// remove third ticket
+         ticketRegisterNumber     -= 1;
+         $scope.showThirdTicket  = false;
+         $scope.thirdTicket      = '';
+         $scope.thirdDefaultPrice    = 0;
+         $scope.thirdCustomerDiscount      = 0;
+       }
+     // check list of ticket if it is empty change state to main.home
+     if( ((typeof $scope.firstTicket) == 'string')
+         && ((typeof $scope.secondTicket) == 'string')
+         && ((typeof $scope.thirdTicket) == 'string' )){
+           $state.go('main.home');
+         }
+     // update total price
+     $scope.total = $scope.thirdDefaultPrice - $scope.thirdCustomerDiscount + $scope.secondDefaultPrice - $scope.secondCustomerDiscount
+                   + $scope.firstDefaultPrice - $scope.firstCustomerDiscount;
+    }
+
+    /**
+     * validate email is correct formating?
+     * @param  {String} email : email will be validate
+     * @return {Boolean}   true if email is correct formating, false otherwise;
+     */
+    function validEmail(email) {
+        var filter = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
+        return String(email).search (filter) != -1;
+    }
+    /**
+     * send mail to customer when the customer registered
+     * @param  {Array} listCusomter : list of the customer to get information and
+     *                              	send mail to first customer who registerd the list of tickets.
+     * @return {}  not return value.
+     */
+    var sendMail =  function(listCusomter){
+      // row contain in table which contain ticket's information
+      var rowTable = "";
+      for(var i = 0; i < listCusomter.length; i++){
+        var color = '';
+        if( i % 2 == 0)
+          color = "#CDDC39";
+        else
+          color = "#DCE775";
+        rowTable +=   "      <tr style='backround: "+ color +";'>"
+                    + "        <td>" + listCusomter[i].ticket._id + "</td>"
+                    + "        <td>" + listCusomter[i].name + "</td>"
+                    + "        <td>" + listCusomter[i]._id + "</td>"
+                    + "        <td>" + formatDate(new Date(listCusomter[i].ticket.dateBuy)) + "</td>"
+                    + "        <td>" + formatDate(new Date(listCusomter[i].ticket.date)) + "</td>"
+                    + "        <td>" + listCusomter[i].ticket.startStation + "</td>"
+                    + "        <td>" + listCusomter[i].ticket.endStation + "</td>"
+                    + "        <td>" + listCusomter[i].ticket.price + "</td>"
+                    + "        <td>" + listCusomter[i].ticket.object + "</td>"
+                    + "      </tr>";
+      }
+      // content mail when send to customer
+      var body = {
+        "to"      : listCusomter[0].email,
+        "subject" : "Register Train Ticket",
+        "html"    : "Hi "+ listCusomter[0].name + ","
+                    + "<br> <br>"
+                    + "You registered the train ticket successfully at "+ $window.location.href  +". <br>"
+                    + "Ticket Number: " + listCusomter.length
+                    + "<br>"
+                    + "<br>"
+                    + " <table border='1' style='border-collapse: collapse;'>"
+                    + "      <tr style='backround: #64B5F6;'>"
+                    + "        <td>Ticket ID  </td>"
+                    + "        <td>Name</td>"
+                    + "        <td>Passport</td>"
+                    + "        <td>Time register</td>"
+                    + "        <td>Time train</td>"
+                    + "        <td>Begin Station</td>"
+                    + "        <td>End Station</td>"
+                    + "        <td>Price</td>"
+                    + "        <td>Object</td>"
+                    + "      </tr>"
+                    + rowTable
+                    + "    </table>"
+                    + "<br>"
+                    + "Please go to the station get the ticktets."
+                    + "<br>"
+                    + "<br>"
+                    + "Thanks,<br>"
+                    + "TrainTicketsSystem"
+      }
+      // call server to send mail
+      $http.post(URLServices.getURL('mail'), body)
+            .success(function (data, status, header, config) {
+              toastr.success('Sent mail to your. Please check your mail.','Success',{timeOut:30000});
+            })
+            .error(function (data, status, header, config) {
+              if(data == null){
+                toastr.error('Cannot connect to the server. Please try again after few minutes. Thanks',
+                            'Error',{timeOut:timOutToastr});
+                return;
+              }
+              toastr.error("Error: "+data,'Error',{timeOut:timOutToastr});
+            });
+    }
+    // format date view
+    var formatDate = function(date){
+      return ""+date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate()
+               + " " + date.getHours()+":"+date.getMinutes();
+    }
+
+    /**
+     * handle event the customer click choose type object of the ticket.
+     * This function is declare 'var', because can be called here and
+     * call in regist-tickets.tml through the varibal $scope.
+     *
+     * @param  {String} name : name of the ticket.
+     * @return no return;
+     */
     var chooseObjectVar =  function(name){
 
       switch (name) {
         case 'first':
           // get value had chosen by customer.
           var objectName = $scope.selectFirstTicket;
-          showLog.show('select');
-          showLog.show(objectName, envi);
-          showLog.show((objectName == 'Old person') + "old ", envi);
-          showLog.show((objectName == 'Student') + "student ", envi);
+          ShowLog.show('select');
+          ShowLog.show(objectName, envi);
+          ShowLog.show((objectName == 'Old person') + "old ", envi);
+          ShowLog.show((objectName == 'Student') + "student ", envi);
           if(objectName == 'Old person'){
             $scope.firstCustomerDiscount      = $scope.objects[2].discount;
           }else if( objectName == 'Student'){
@@ -689,13 +763,13 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
             objectName = 'Adult';
             $scope.firstCustomerDiscount      = $scope.objects[0].discount;
           }
-          showLog.show($scope.firstCustomerDiscount + "discount ", envi);
+          ShowLog.show($scope.firstCustomerDiscount + "discount ", envi);
           // calculate discount
           $scope.firstCustomerDiscount =  Number($scope.firstDefaultPrice) * Number($scope.firstCustomerDiscount) ;
-          showLog.show($scope.firstCustomerDiscount + "discount ", envi);
+          ShowLog.show($scope.firstCustomerDiscount + "discount ", envi);
           // update price of the ticket
           $scope.firstTicket.price = Number($scope.firstDefaultPrice) - Number($scope.firstCustomerDiscount);
-          showLog.show($scope.firstTicket.price + "discount ", envi);
+          ShowLog.show($scope.firstTicket.price + "discount ", envi);
           // update object of the tikcet
           $scope.firstTicket.object = objectName;
           break;
@@ -737,8 +811,14 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
       $scope.total = $scope.thirdDefaultPrice - $scope.thirdCustomerDiscount + $scope.secondDefaultPrice - $scope.secondCustomerDiscount
                     + $scope.firstDefaultPrice - $scope.firstCustomerDiscount;
     }
-    // check passport of customer
-    // condition: number of list customer.
+
+    /**
+     * check passport of customer
+     * @param  {Number} condition: ticket number
+     * @return {Boolean} true  if there are two or
+     *                         more tickets together passport number
+    *                          ; false otherwise
+     */
     var checkPassPort =  function(condition){
 
       if(condition == 3){// check three the tickets
@@ -785,8 +865,20 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
       }
 
     }
-    // create customer
-    var createCustomer =  function(id, name, address, phone, email, company, ticket){
+
+    /**
+     * create a customer
+     * @param  {String} id      passport of the customer
+     * @param  {String} name    name of the customer
+     * @param  {String} address address of the customer
+     * @param  {String} phone   phone of the customer
+     * @param  {String} email   email of the customer
+     * @param  {Object} company company of the customer
+     * @param  {Object} ticket  ticket of the customer
+     * @return {Customer}       return one customer with full information
+     */
+    var createCustomer =  function(id, name, address
+                                    , phone, email, company, ticket){
             var customer= {
             "_id"     : id,
             "name"    : name,
@@ -800,6 +892,12 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
     }
     // check string input
     // return true if this string has than 1 letter; false otherwise.
+    /**
+     * check string input: name, nameCompany,.. mainly check the length
+     * @param  {String} str string need check.
+     * @return {Boolean}    true if the string has than two the letters,
+     *                           false othe wise
+     */
     var checkInput  = function(str){
       if(str == null)
         return false;
@@ -811,7 +909,11 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
       return true;
     }
 
-    // the first load state it wil be execute to set list tickets
+    /**
+     * using assign begin values for the ticket list
+     *  when from page position-seat to here.
+     * @return none;
+     */
     var getTicket   = function(){
       if($scope.listTickets.length == 3){
         ticketRegisterNumber       = 3;
@@ -852,7 +954,10 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
       $scope.total = $scope.thirdDefaultPrice - $scope.thirdCustomerDiscount + $scope.secondDefaultPrice - $scope.secondCustomerDiscount
                     + $scope.firstDefaultPrice - $scope.firstCustomerDiscount;
     }
-    // add event to object
+  /**
+   * add events to type object of the ticket
+   * @return none;
+   */
     var addEventToObject =  function(){
       if($scope.listEventRegister.length > 0){
         var listEvent = $scope.listEventRegister;
@@ -878,7 +983,10 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
         }
       }
     }
-    // filter event die; if it die remove from list
+    /**
+     * filter the event died and remove them.
+     * @return none;
+     */
     var filterEvent = function(){
       if($scope.listEventRegister.length > 0){
         var listEvent = JSON.parse( JSON.stringify($scope.listEventRegister));
@@ -893,20 +1001,46 @@ routerApp.controller('registTicketsController',  function(changeInfor, showLog, 
         }
       }
     }
-    // convert page to image to save
+    /**
+     * change dive to image
+     * @return none
+     */
     var saveImage =  function(){
       html2canvas($("#div-register"), {
        onrendered: function(canvas) {
            // canvas is the final rendered <canvas> element
            var myImage = canvas.toDataURL("image/png");
-           window.open(myImage);
+           $window.open(myImage);
        }
      });
     }
+    /**
+     * show time keep the ticket list one page register
+     * when end time, the ticket list will auto delete and back home page
+     * @return none;
+     */
+    var timeKeepTicket =  function(){
+      $scope.viewTimeKeepTicket = "show-div-time-ticket";
+      timeKeepTicket =  $interval(function () {
+        $scope.timeKeepListTicket --;
+        if(Number($scope.timeKeepListTicket) == 0){
+          $scope.firstTicket = '';
+          $scope.secondTicket = '';
+          $scope.thirdTicket = '';
+          $scope.viewTimeKeepTicket = "hide-div-time-ticket";
+          $interval.cancel(timeKeepTicket);
+          timeKeepTicket = undefined;
+          $state.go('main.home');
+        }
 
+      }, 1000);
+    }
     /*
     * RUN METHODS
     */
-    // exec when main.register had been call
+    /*
+    * run the functions to get value init.
+     */
     getTicket();
+    timeKeepTicket();
 });

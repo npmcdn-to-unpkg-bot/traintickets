@@ -1,4 +1,4 @@
-routerApp.service('changeInfor',function($rootScope){
+routerApp.service('ChangeInfor',function($rootScope){
   this.change =  function(nameSate){
     switch (nameSate) {
       case 'main':

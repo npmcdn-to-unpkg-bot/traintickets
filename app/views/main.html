@@ -1,6 +1,4 @@
-<div id="div-load-data" ng-class="$root.showLoad">
-  <img id="img-load-data" class="img-responsive"  src="libs/img/load.gif" alt="" />
-</div>
+
 <nav class="navbar navbar-default navbar-fixed-top">
 
     <div class="container">
@@ -15,12 +13,12 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li class="li-list-menu-main" ng-class="active1" ng-click="changeAcitveMenu(1)"><a  href="#main/home">Home</a></li>
-                <li class="li-list-menu-main" ng-class="active2" ng-click="changeAcitveMenu(2)"><a  href="#main/information">Check Valid Ticket</a></li>
-                <li class="li-list-menu-main" ng-class="active3" ng-click="changeAcitveMenu(3)"><a  href="#main/event">Events</a></li>
-                <li class="li-list-menu-main" ng-class="active4" ng-click="changeAcitveMenu(4)"><a  href="#main/viewtime">Timetable</a></li>
-                <li class="li-list-menu-main" ng-class="active5" ng-click="changeAcitveMenu(5)"><a  href="#main/guide">Guide</a></li>
-                <li class="li-list-menu-main" ng-class="active6" ng-click="changeAcitveMenu(6)"><a  href="#main/contact">Contact</a></li>
+                <li class="li-list-menu-main" ng-class="activeHome" ng-click="changeAcitveMenu(1)"><a  href="#main/home">Home</a></li>
+                <li class="li-list-menu-main" ng-class="activeInfor" ng-click="changeAcitveMenu(2)"><a  href="#main/information">Check Valid Ticket</a></li>
+                <li class="li-list-menu-main" ng-class="activeEvent" ng-click="changeAcitveMenu(3)"><a  href="#main/event">Events</a></li>
+                <li class="li-list-menu-main" ng-class="activeTimetable" ng-click="changeAcitveMenu(4)"><a  href="#main/viewtime">Timetable</a></li>
+                <li class="li-list-menu-main" ng-class="activeGuide" ng-click="changeAcitveMenu(5)"><a  href="#main/guide">Guide</a></li>
+                <li class="li-list-menu-main" ng-class="activeContact" ng-click="changeAcitveMenu(6)"><a  href="#main/contact">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#main/login" class="glyphicon glyphicon-log-in"> Login</a></li>
@@ -29,6 +27,9 @@
     </div>
 </nav>
 <!-- CONTAINs -->
+<div id="div-load-data" ng-class="$root.showLoad">
+  <img id="img-load-data" class="img-responsive"  src="libs/img/load.gif" alt="" />
+</div>
 <div ui-view class="page-wrap" ng-class="$root.backgroundPage"></div>
 <!-- CONTAINs -->
 <div class="site-footer">

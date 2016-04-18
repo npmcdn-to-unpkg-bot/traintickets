@@ -1,7 +1,7 @@
-routerApp.controller('adminController',  function(changeInfor, showLog, $scope, $http, $state){
+routerApp.controller('AdminController',  function(ChangeInfor, ShowLog, $scope, $http, $state){
   // $scope.show = true;
   //change infor
-  changeInfor.change('admin');
+  ChangeInfor.change('admin');
   $scope.$on('$stateChangeSuccess', function (event, toState) {
       // $scope.show = false;
       // console.log($scope.show);

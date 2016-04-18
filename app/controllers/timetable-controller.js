@@ -1,11 +1,11 @@
-var The_ga;
-routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$scope, $rootScope, $http, $state, $window) {
+routerApp.controller('ViewTimeController', function(ChangeInfor, URLServices ,$scope, $rootScope, $http, $state, $window) {
+  // $rootScope.showLoad = "show-load";
   $scope.station = "Station";
   $scope.timeaway = "Time away";
   $scope.timearrivals = "Time arrivals";
   $scope.Trainjourneygo = "Train journey go";
   //change infor
-  changeInfor.change('timetable');
+  ChangeInfor.change('timetable');
   $scope.Math = window.Math;
   function showJourney() {
     $scope.station = "Station";
@@ -28,7 +28,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   // Train Journey
   $scope.north_sound = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -47,7 +47,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.hanoi_danang = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -66,7 +66,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.hanoi_laocai = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -85,7 +85,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.hanoi_haiphong = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -105,7 +105,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.hanoi_dongdang = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -124,7 +124,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.hanoi_thainguyen = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -143,7 +143,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.kep_halong = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -162,7 +162,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.saigon_danang = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -181,7 +181,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.saigon_phanthiet = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       $scope.listJourney = [];
@@ -200,7 +200,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.saigon_quinhon = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       console.log("response");
       $scope.train = response.data;
       $scope.listId = [];
@@ -222,7 +222,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   // Price Train journey
 
   $scope.Price_north_sound = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -239,7 +239,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
 
   $scope.Price_hanoi_danang = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -255,7 +255,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_hanoi_laocai = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -271,7 +271,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_hanoi_haiphong = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -287,7 +287,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_hanoi_dongdang = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -303,7 +303,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_hanoi_thainguyen = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -319,7 +319,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_kep_halong = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -335,7 +335,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_saigon_danang = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -351,7 +351,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_saigon_phanthiet = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       $scope.train = response.data;
       $scope.listId = [];
       for (i = 0; i < response.length; i++) {
@@ -367,7 +367,7 @@ routerApp.controller('viewTimeController', function(changeInfor, urlServices ,$s
   };
   //
   $scope.Price_saigo_quinhon = function() {
-    $http.get(urlServices.getURL('train')).success(function(response) {
+    $http.get(URLServices.getURL('train')).success(function(response) {
       console.log("response");
       $scope.train = response.data;
       $scope.listId = [];
